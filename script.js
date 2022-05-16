@@ -1,22 +1,25 @@
 const myArgs = process.argv.slice(2);
 let file = myArgs[0];
-let num = myArgs[1];
+let col = myArgs[1];
 let key = myArgs[2];
 let entireFile;
+
 try{
     entireFile = require("fs").readFileSync(file, "utf8"); // all in one string
-} catch(e){
-    console.log("" + e);
-    process.exit(0);
+} catch(err){
+    if (err.code === 'ENOENT') {
+        console.log('File not found!');
+        process.exit(0);
+      } else {
+        throw err;
+      }
 }
-let lines = entireFile.split("\r\n"); // line by line
-//record by record
-for (let i of lines) {
-    let r = i.split(",")[num];
-    if (num == 3){
-        if(r.startsWith(key)) console.log(i);
+
+entireFile.split(/\r?\n/).forEach( line => {
+    let r = line.split(",")[col];
+    if (col == 3){
+        if(r.startsWith(key)) console.log(line);
     }
     else 
-        if (r === key ) console.log(i);
-}
-console.log("key is " + key);
+        if (r === key ) console.log(line);
+});
