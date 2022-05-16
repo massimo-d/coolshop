@@ -5,7 +5,7 @@ let key = myArgs[2];
 let entireFile;
 
 try{
-    entireFile = require("fs").readFileSync(file, "utf8"); // all in one string
+    entireFile = require("fs").readFileSync(file, "utf8");
 } catch(err){
     if (err.code === 'ENOENT') {
         console.log('File not found!');
